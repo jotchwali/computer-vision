@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { HandTrackerEngine } from "./HandTracker";
 import {
   detectGesture,
+  detectTwoHandGesture,
   GestureCooldown,
   type Gesture,
   type Landmark,
@@ -19,6 +20,7 @@ const GESTURE_LABELS: Record<Gesture, string> = {
   closed_fist: "Closed Fist",
   index_up: "Index Finger Up",
   thumbs_up: "Thumbs Up",
+  shadow_clone: "Shadow Clone!",
   none: "No Gesture",
 };
 
@@ -27,6 +29,7 @@ const GESTURE_COLORS: Record<Gesture, string> = {
   closed_fist: "#f87171",
   index_up: "#a78bfa",
   thumbs_up: "#4ade80",
+  shadow_clone: "#f59e0b",
   none: "#64748b",
 };
 
@@ -215,6 +218,10 @@ export default function Camera() {
           audio.play("thumbsup");
           setSoundStatus("Thumbs up chime!");
           break;
+        case "shadow_clone":
+          audio.play("shadow_clone");
+          setSoundStatus("Shadow Clone Jutsu!");
+          break;
       }
     },
     [animateParticles],
@@ -268,9 +275,21 @@ export default function Camera() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         if (landmarks.length > 0) {
-          drawLandmarks(ctx, landmarks[0], canvas.width, canvas.height);
+          // Draw all detected hands
+          for (const hand of landmarks) {
+            drawLandmarks(ctx, hand, canvas.width, canvas.height);
+          }
 
-          const gesture = detectGesture(landmarks[0]);
+          // Check two-hand gesture first (requires 2 hands)
+          let gesture: Gesture = "none";
+          if (landmarks.length >= 2) {
+            gesture = detectTwoHandGesture(landmarks);
+          }
+          // Fall back to single-hand gesture on the first hand
+          if (gesture === "none") {
+            gesture = detectGesture(landmarks[0]);
+          }
+
           setRawGesture(gesture);
 
           const triggered = cooldownRef.current.process(gesture);
@@ -478,7 +497,7 @@ export default function Camera() {
             </div>
             <p className="max-w-sm text-sm text-white/50 leading-relaxed">
               Control sounds and visuals with your hands. Open your palm, point,
-              give a thumbs up, or make a fist.
+              give a thumbs up, make a fist, or cross your fingers for a shadow clone.
             </p>
             <div className="grid grid-cols-2 gap-3 mt-2">
               {(
@@ -487,6 +506,7 @@ export default function Camera() {
                   ["closed_fist", "Stop all sounds"],
                   ["index_up", "Particle burst"],
                   ["thumbs_up", "Play chime"],
+                  ["shadow_clone", "Cross fingers (both hands)"],
                 ] as [Gesture, string][]
               ).map(([g, desc]) => (
                 <div
