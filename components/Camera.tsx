@@ -19,6 +19,7 @@ const GESTURE_LABELS: Record<Gesture, string> = {
   open_palm: "Open Palm",
   closed_fist: "Closed Fist",
   index_up: "Index Finger Up",
+  middle_finger: "Middle Finger",
   thumbs_up: "Thumbs Up",
   shadow_clone: "Shadow Clone!",
   none: "No Gesture",
@@ -28,6 +29,7 @@ const GESTURE_COLORS: Record<Gesture, string> = {
   open_palm: "#22d3ee",
   closed_fist: "#f87171",
   index_up: "#a78bfa",
+  middle_finger: "#ef4444",
   thumbs_up: "#4ade80",
   shadow_clone: "#f59e0b",
   none: "#64748b",
@@ -217,6 +219,10 @@ export default function Camera() {
         case "thumbs_up":
           audio.play("thumbsup");
           setSoundStatus("Thumbs up chime!");
+          break;
+        case "middle_finger":
+          audio.play("f_u");
+          setSoundStatus("Middle finger detected!");
           break;
         case "shadow_clone":
           audio.play("shadow_clone");
@@ -513,13 +519,14 @@ export default function Camera() {
               Control sounds and visuals with your hands. Open your palm, point,
               give a thumbs up, make a fist, or cross your fingers for a shadow clone.
             </p>
-            <div className="grid grid-cols-2 gap-3 mt-2">
+            <div className="grid grid-cols-3 gap-3 mt-2">
               {(
                 [
-                  ["open_palm", "Play ambient sound"],
+                  ["open_palm", "Detected (no sound)"],
                   ["closed_fist", "Stop all sounds"],
                   ["index_up", "Particle burst"],
                   ["thumbs_up", "Play chime"],
+                  ["middle_finger", "Play F U sound"],
                   ["shadow_clone", "Cross fingers (both hands)"],
                 ] as [Gesture, string][]
               ).map(([g, desc]) => (

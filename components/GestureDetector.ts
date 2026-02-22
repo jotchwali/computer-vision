@@ -19,7 +19,7 @@
  *   17 - Pinky MCP
  */
 
-export type Gesture = "open_palm" | "closed_fist" | "index_up" | "thumbs_up" | "shadow_clone" | "none";
+export type Gesture = "open_palm" | "closed_fist" | "index_up" | "middle_finger" | "thumbs_up" | "shadow_clone" | "none";
 
 export interface Landmark {
   x: number;
@@ -101,6 +101,11 @@ export function detectGesture(landmarks: Landmark[]): Gesture {
   // --- Index finger up: only index extended ---
   if (index && !middle && !ring && !pinky) {
     return "index_up";
+  }
+
+  // --- Middle finger: only middle finger extended ---
+  if (middle && !index && !ring && !pinky) {
+    return "middle_finger";
   }
 
   // --- Open palm: all five digits extended ---

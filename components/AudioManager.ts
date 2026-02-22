@@ -7,7 +7,7 @@
  *  - Prevents unintentional overlap for looping sounds (ambient).
  */
 
-export type SoundId = "ambient" | "thumbsup" | "sparkle" | "shadow_clone";
+export type SoundId = "ambient" | "thumbsup" | "sparkle" | "shadow_clone" | "f_u";
 
 interface SoundEntry {
   buffer: AudioBuffer | null;
@@ -22,6 +22,7 @@ const SOUND_FILES: Record<SoundId, { path: string; loop: boolean }> = {
   thumbsup: { path: "/sounds/thumbsup.wav", loop: false },
   sparkle: { path: "/sounds/sparkle.wav", loop: false },
   shadow_clone: { path: "/sounds/shadow-clone.mp3", loop: false },
+  f_u: { path: "/sounds/f_u.m4a", loop: false },
 };
 
 export class AudioManager {
