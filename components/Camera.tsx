@@ -192,8 +192,7 @@ export default function Camera() {
 
       switch (gesture) {
         case "open_palm":
-          audio.play("ambient");
-          setSoundStatus("Ambient playing");
+          setSoundStatus("Open palm detected");
           break;
         case "closed_fist":
           audio.stopAll();
