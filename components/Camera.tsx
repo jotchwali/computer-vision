@@ -512,7 +512,7 @@ export default function Camera() {
                 </svg>
               </div>
               <h1 className="text-3xl font-bold text-white tracking-tight">
-                Hand Gestures
+                Jutsu
               </h1>
             </div>
             <p className="max-w-sm text-sm text-white/50 leading-relaxed">

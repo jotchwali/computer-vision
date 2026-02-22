@@ -1,6 +1,6 @@
-# Hand Gestures — Real-time Hand Tracking
+# Jutsu
 
-Control sounds and visual effects using hand gestures detected in real time through your webcam.
+Real-time hand gesture recognition that triggers sounds and visual effects, powered by MediaPipe and running entirely in the browser.
 
 Built with Next.js (App Router), MediaPipe Hands, and the Web Audio API. Runs entirely client-side — no backend processing required.
 

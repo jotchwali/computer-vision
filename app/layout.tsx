@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Hand Gestures — Real-time Hand Tracking",
+  title: "Jutsu — Real-time Hand Gesture Recognition",
   description:
-    "Control sounds and visual effects with hand gestures using real-time webcam tracking powered by MediaPipe.",
+    "Real-time hand gesture recognition that triggers sounds and visual effects, powered by MediaPipe and running entirely in the browser.",
 };
 
 export default function RootLayout({
