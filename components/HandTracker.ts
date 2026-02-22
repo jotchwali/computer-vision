@@ -41,7 +41,10 @@ export class HandTrackerEngine {
         delegate: "GPU",
       },
       runningMode: "VIDEO",
-      numHands: 1,
+      numHands: 2,
+      minHandDetectionConfidence: 0.3,
+      minHandPresenceConfidence: 0.3,
+      minTrackingConfidence: 0.3,
     });
   }
 

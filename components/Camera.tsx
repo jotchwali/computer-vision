@@ -101,6 +101,7 @@ export default function Camera() {
   const [fps, setFps] = useState(0);
   const [volume, setVolume] = useState(0.7);
   const [flashGesture, setFlashGesture] = useState<Gesture | null>(null);
+  const [handsCount, setHandsCount] = useState(0);
 
   // Refs for latest state in callbacks
   const volumeRef = useRef(volume);
@@ -274,6 +275,8 @@ export default function Camera() {
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+        setHandsCount(landmarks.length);
+
         if (landmarks.length > 0) {
           // Draw all detected hands
           for (const hand of landmarks) {
@@ -344,6 +347,7 @@ export default function Camera() {
     setRawGesture("none");
     setSoundStatus("Ready");
     setFps(0);
+    setHandsCount(0);
   }, []);
 
   // Volume sync
@@ -422,11 +426,22 @@ export default function Camera() {
         </div>
       </div>
 
-      {/* Top-right: FPS + Sound status */}
+      {/* Top-right: FPS + Hands count + Sound status */}
       <div className="absolute top-6 right-6 z-10 flex flex-col items-end gap-2">
         {active && (
           <div className="rounded-lg bg-black/60 px-3 py-1.5 backdrop-blur-md border border-white/10 text-xs font-mono text-white/60">
             {fps} FPS
+          </div>
+        )}
+        {active && (
+          <div className={`rounded-lg bg-black/60 px-3 py-1.5 backdrop-blur-md border text-xs font-mono ${
+            handsCount >= 2
+              ? "border-amber-500/50 text-amber-400"
+              : handsCount === 1
+                ? "border-cyan-500/50 text-cyan-400"
+                : "border-white/10 text-white/60"
+          }`}>
+            {handsCount} {handsCount === 1 ? "hand" : "hands"}
           </div>
         )}
         <div className="rounded-lg bg-black/60 px-3 py-1.5 backdrop-blur-md border border-white/10 text-xs text-white/70">
